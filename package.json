@@ -1,0 +1,38 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "private": true,
+ "packageManager": "pnpm@10.11.0"
+  "license": "MIT",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "build": "pnpm typecheck && pnpm -r --if-present build",
+    "dev": "pnpm -r --parallel --if-present dev",
+    "start": "pnpm -r --if-present start",
+    "typecheck": "pnpm typecheck:libs && pnpm -r --if-present typecheck",
+    "typecheck:libs": "tsc --build",
+    "lint": "pnpm -r --if-present lint",
+    "lint:fix": "pnpm -r --if-present lint:fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "clean": "pnpm -r --if-present clean"
+  },
+  "devDependencies": {
+    "@rollup/rollup-win32-x64-msvc": "^4.61.1",
+    "@tailwindcss/oxide-win32-x64-msvc": "^4.3.0",
+    "lightningcss": "^1.32.0",
+    "lightningcss-win32-x64-msvc": "^1.32.0",
+    "only-allow": "^1.2.1",
+    "prettier": "^3.8.3",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express-validator": "^7.3.2",
+    "mongodb": "^7.2.0"
+  }
+}
