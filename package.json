@@ -11,7 +11,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm typecheck && pnpm -r --if-present build",
-    "dev": "pnpm -r --parallel --if-present dev",
+    "dev": "cross-env NODE_ENV=development pnpm run build && pnpm run start",
     "start": "pnpm -r --if-present start",
     "typecheck": "pnpm typecheck:libs && pnpm -r --if-present typecheck",
     "typecheck:libs": "tsc --build",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@rollup/rollup-win32-x64-msvc": "^4.61.1",
     "@tailwindcss/oxide-win32-x64-msvc": "^4.3.0",
+    "cross-env": "^10.1.0",
     "lightningcss": "^1.32.0",
     "lightningcss-win32-x64-msvc": "^1.32.0",
     "only-allow": "^1.2.1",
