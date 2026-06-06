@@ -1,12 +1,9 @@
-import dotenv from "dotenv";
-dotenv.config();
-
-import http from "http";
 import app from "./app.js";
 import { logger } from "./lib/logger.js";
 import { connectDB } from "./lib/db.js";
 
 const rawPort = process.env["PORT"];
+
 if (!rawPort) {
   throw new Error(
     "PORT environment variable is required but was not provided.",
@@ -22,15 +19,12 @@ if (Number.isNaN(port) || port <= 0) {
 async function start() {
   await connectDB();
 
-  const server = http.createServer(app);
-
-  server.listen(port, () => {
+  app.listen(port, (err?: Error) => {
+    if (err) {
+      logger.error({ err }, "Error listening on port");
+      process.exit(1);
+    }
     logger.info({ port }, "Server listening");
-  });
-
-  server.on("error", (err) => {
-    logger.error({ err }, "Error listening on port");
-    process.exit(1);
   });
 }
 
