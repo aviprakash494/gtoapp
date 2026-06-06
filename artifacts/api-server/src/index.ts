@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import http from "http";
 import app from "./app.js";
 import { logger } from "./lib/logger.js";
 import { connectDB } from "./lib/db.js";
@@ -21,12 +22,15 @@ if (Number.isNaN(port) || port <= 0) {
 async function start() {
   await connectDB();
 
-  app.listen(port, (err?: Error) => {
-    if (err) {
-      logger.error({ err }, "Error listening on port");
-      process.exit(1);
-    }
+  const server = http.createServer(app);
+
+  server.listen(port, () => {
     logger.info({ port }, "Server listening");
+  });
+
+  server.on("error", (err) => {
+    logger.error({ err }, "Error listening on port");
+    process.exit(1);
   });
 }
 
