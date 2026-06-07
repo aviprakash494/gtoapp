@@ -6,6 +6,7 @@ export interface AuthRequest extends Request {
   userId?: string;
   log: Logger;
   body: any;
+  params: any;
 }
 
 export function authenticate(
