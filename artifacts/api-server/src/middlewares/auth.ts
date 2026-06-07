@@ -1,8 +1,11 @@
 import type { Request, Response, NextFunction } from "express";
+import type { Logger } from "pino";
 import jwt from "jsonwebtoken";
 
 export interface AuthRequest extends Request {
   userId?: string;
+  log: Logger;
+  body: any;
 }
 
 export function authenticate(
@@ -19,7 +22,9 @@ export function authenticate(
   const token = authHeader.slice(7);
   const secret = process.env["JWT_SECRET"];
   if (!secret) {
-    res.status(500).json({ success: false, message: "Server misconfiguration" });
+    res
+      .status(500)
+      .json({ success: false, message: "Server misconfiguration" });
     return;
   }
 
@@ -28,6 +33,8 @@ export function authenticate(
     req.userId = decoded.userId;
     next();
   } catch {
-    res.status(401).json({ success: false, message: "Invalid or expired token" });
+    res
+      .status(401)
+      .json({ success: false, message: "Invalid or expired token" });
   }
 }
