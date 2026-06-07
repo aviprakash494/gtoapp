@@ -1,19 +1,14 @@
-import type { Request, Response, NextFunction } from "express";
-import type { Logger } from "pino";
 import jwt from "jsonwebtoken";
 
-export interface AuthRequest extends Request {
+export interface AuthRequest {
   userId?: string;
-  log: Logger;
+  log: any;
   body: any;
   params: any;
+  headers: any;
 }
 
-export function authenticate(
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction,
-): void {
+export function authenticate(req: any, res: any, next: any): void {
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     res.status(401).json({ success: false, message: "No token provided" });
